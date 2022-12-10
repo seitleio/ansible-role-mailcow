@@ -26,6 +26,7 @@
   ansible.builtin.copy:
     src: "./files/{{ item }}"
     dest: "/tmp/{{ item }}"
+    mode: '0744'
   with_items:
     - replace_volume_path.py
     - inject_nginx_proxy_vars.py
