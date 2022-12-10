@@ -22,6 +22,18 @@
     dest: "{{ mailcow__install_path }}"
   when: not mailcow_installed.stat.exists
 
+- name: Copy custom scripts to remote host
+  ansible.builtin.copy:
+    src: "./files/{{ item }}"
+    dest: "/tmp/{{ item }}"
+  with_items:
+    - replace_volume_path.py
+    - inject_nginx_proxy_vars.py
+
+- name: Inject custom volume path into compose file
+  ansible.builtin.script: "/tmp/replace_volume_path.py --compose-file {{ mailcow__install_path }}/docker-compose.yml --replace-path {{ mailcow__custom_data_location }}"
+  when: mailcow__custom_data_location.exists
+
 - name: Generate mailcow.conf file
   shell: ./generate_config.sh
   environment:
