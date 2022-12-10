@@ -34,6 +34,10 @@
   ansible.builtin.script: "/tmp/replace_volume_path.py --compose-file {{ mailcow__install_path }}/docker-compose.yml --replace-path {{ mailcow__custom_data_location }}"
   when: mailcow__custom_data_location.exists
 
+- name: Inject custom volume path into compose file
+  ansible.builtin.script: "/tmp/replace_volume_path.py --compose-file {{ mailcow__install_path }}/docker-compose.yml --virtual-host {{ mailcow__custom_proxy_virtual_host }} --virtual-port {{ mailcow__custom_proxy_virtual_port }}"
+  when: mailcow__custom_inject_proxy_vars | default('false')
+
 - name: Generate mailcow.conf file
   shell: ./generate_config.sh
   environment:
