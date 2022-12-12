@@ -72,3 +72,5 @@
       value: "{{ mailcow__docker_compose_project_name }}"
     - variable: ACME_CONTACT
       value: "{{ mailcow__config_acme_contact }}"
+    - variable: IPV4_NETWORK
+      value: "{{ mailcow__config_ipv4_network }}"
