@@ -86,3 +86,7 @@
   when:
     - mailcow_running.exists
     - mailcow__install_updates
+
+- name: Setup mailcow backup cron
+  include_tasks:  backup.yml
+  when: mailcow__backup_enabled | default('false')
