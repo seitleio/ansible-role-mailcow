@@ -18,6 +18,7 @@ This role will setup a mailcow dockerized email server.
 This role will use by default the `inventory_hostname` as mailcow hostname, this means that you have to use the full qualified domain name as your inventory hostname e.g. `mail.mailcow.tld` or you set `mailcow__hostname` to the correct FQDN.
 
 ## Variables
+
 | name                                      | purpose                                                                     | default value                                | note                                                                                      |
 |--:-:--------------------------------------|--:-:------------------------------------------------------------------------|--:-:-----------------------------------------|--:-:--------------------------------------------------------------------------------------|
 | `mailcow__hostname `                      | sets MAILCOW_HOSTNAME                                                       | `inventory_hostname`                         | needs to be an full qualified domain name                                                 |
