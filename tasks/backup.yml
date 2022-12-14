@@ -11,6 +11,5 @@
     month: "{{ mailcow__backup_cron_month | default('*') }}"
     weekday: "{{ mailcow__backup_cron_weekday | default('*') }}"
     hour: "{{ mailcow__backup_cron_hour | default('3') }}"
-    minute: "{{ mailcow__backup_cron_minute | default('0') }}"
-    env: true      
+    minute: "{{ mailcow__backup_cron_minute | default('0') }}" 
     job: "MAILCOW_BACKUP_LOCATION={{ mailcow__backup_location | default(mailcow__install_path + '/backup') }} THREADS={{ mailcow__backup_threads | default(ansible_processor_cores - 2) }} {{ mailcow__install_path }}/helper-scripts/backup_and_restore.sh backup {{ mailcow__backup_services | default('all') }} --delete-days {{ mailcow__backup_delete_days | default(7) }}"
