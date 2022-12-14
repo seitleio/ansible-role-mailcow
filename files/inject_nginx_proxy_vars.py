@@ -25,7 +25,6 @@ def main():
     proxy_vars = {
         'VIRTUAL_HOST': args.vhost,
         'VIRTUAL_PORT': args.vport,
-        'VIRTUAL_PROTO': 'https',
         'LETSENCRYPT_HOST': args.vhost,
         'LETSENCRYPT_SINGLE_DOMAIN_CERTS': 'false'
     }
