@@ -6,7 +6,7 @@
   ansible.builtin.lineinfile: 
     path: "{{ mailcow__install_path }}/data/conf/unbound/unbound.conf"
     regex: "^  do-ip6:"
-    line: "do-ip6: no"
+    line: "  do-ip6: no"
 
 - name: Set smtp_address_preference to IPv4
   ansible.builtin.lineinfile: 
