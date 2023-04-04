@@ -52,6 +52,10 @@
 - name: Template settings for Nginx
   import_tasks: nginx.yml
 
+- name: Disable IPv6
+  import_tasks: disable_ipv6.yml
+  when: mailcow__config_disable_ipv6
+
 - name: Copy vars.local.inc.php
   become: yes
   template:

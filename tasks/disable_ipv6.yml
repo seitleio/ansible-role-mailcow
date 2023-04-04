@@ -1,0 +1,21 @@
+---
+- name: Disable ipv6nat container in the compose file
+  ansible.builtin.script: "disable_network_ipv6.py --compose-file {{ mailcow__install_path }}/docker-compose.yml"
+
+- name: Disable IPv6 for unbound
+  ansible.builtin.lineinfile: 
+    path: "{{ mailcow__install_path }}/data/conf/unbound/unbound.conf"
+    regex: "^  do-ip6:"
+    line: "do-ip6: no"
+
+- name: Set smtp_address_preference to IPv4
+  ansible.builtin.lineinfile: 
+    path: "{{ mailcow__install_path }}/data/conf/postfix/extra.cf"
+    regex: "^smtp_address_preference ="
+    line: "smtp_address_preference = ipv4"
+
+- name: Set inet_protocols to IPv4
+  ansible.builtin.lineinfile: 
+    path: "{{ mailcow__install_path }}/data/conf/postfix/extra.cf"
+    regex: "^inet_protocols ="
+    line: "inet_protocols = ipv4"
