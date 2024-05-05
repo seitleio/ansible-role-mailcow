@@ -1,12 +1,10 @@
 ---
 
 - name: "Uncomment mailcow.conf lines"
-  become: yes
+  become: true
   ansible.builtin.replace:
     path: "{{ mailcow__install_path }}/mailcow.conf"
     regexp: "^#({{ item }}=)$"
-
-- ansible.builtin.replace: '\1'
   notify: Recreate mailcow
   loop:
     - WATCHDOG_NOTIFY_EMAIL
@@ -14,7 +12,7 @@
     - ACME_CONTACT
 
 - name: "Configure mailcow.conf"
-  become: yes
+  become: true
   ansible.builtin.replace:
     path: "{{ mailcow__install_path }}/mailcow.conf"
     regexp: "^{{ item.variable }}=.*"
