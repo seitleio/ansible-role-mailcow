@@ -1,9 +1,9 @@
 ---
 
 - name: Configure rspamd clamv server
-  become: yes
+  become: true
   ansible.builtin.replace:
     path: "{{ mailcow__install_path }}/data/conf/rspamd/local.d/antivirus.conf"
     regexp: "^  servers = \".*\";$"
-  ansible.builtin.replace: "  servers = \"{{ mailcow__rspamd_clamd_servers }}\";"
+    replace: "  servers = \"{{ mailcow__rspamd_clamd_servers }}\";"
   notify: Restart mailcow rspamd

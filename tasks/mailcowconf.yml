@@ -5,6 +5,7 @@
   ansible.builtin.replace:
     path: "{{ mailcow__install_path }}/mailcow.conf"
     regexp: "^#({{ item }}=)$"
+    replace: '\1'
   notify: Recreate mailcow
   loop:
     - WATCHDOG_NOTIFY_EMAIL
@@ -16,8 +17,7 @@
   ansible.builtin.replace:
     path: "{{ mailcow__install_path }}/mailcow.conf"
     regexp: "^{{ item.variable }}=.*"
-
-- ansible.builtin.replace: "{{ item.variable }}={{ item.value }}"
+    replace: "{{ item.variable }}={{ item.value }}"
   notify: Recreate mailcow
   loop:
     - variable: HTTP_PORT
