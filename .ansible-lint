@@ -1,4 +1,3 @@
 skip_list:
- - '106'
- - fqcn-builtins
- - experimental
+  - 'yaml'
+  - 'role-name'
