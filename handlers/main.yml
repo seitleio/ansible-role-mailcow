@@ -2,7 +2,7 @@
 
 - name: Restart mailcow
   become: true
-  shell: |
+ansible.builtin.shell: |
     {{ mailcow__compose_command }} --project-name {{ mailcow__docker_compose_project_name }} restart
   changed_when: false
   args:
@@ -10,7 +10,7 @@
 
 - name: Recreate mailcow
   become: true
-  shell: |
+ansible.builtin.shell: |
     {{ mailcow__compose_command }} --project-name {{ mailcow__docker_compose_project_name }} down
     {{ mailcow__compose_command }} --project-name {{ mailcow__docker_compose_project_name }} up -d
   changed_when: false
@@ -19,7 +19,7 @@
 
 - name: Restart mailcow rspamd
   become: true
-  shell: |
+ansible.builtin.shell: |
     {{ mailcow__compose_command }} --project-name {{ mailcow__docker_compose_project_name }} restart rspamd-mailcow
   changed_when: false
   args:

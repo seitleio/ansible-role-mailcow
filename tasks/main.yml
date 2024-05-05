@@ -2,19 +2,19 @@
 
 - name: Install required apt packages
   become: true
-  apt:
+ansible.builtin.apt:
     name: git
     state: present
 
 - name: Check if mailcow installation directory exists
   become: true
-  stat:
+ansible.builtin.stat:
     path: "{{ mailcow__install_path }}"
   register: mailcow_installed
 
 - name: Clone mailcow git repo
   become: true
-  git:
+ansible.builtin.git:
     repo: 'https://github.com/mailcow/mailcow-dockerized.git'
     version: "{{ mailcow__git_version }}"
     umask: '022'
@@ -31,7 +31,7 @@
   when: mailcow__custom_inject_proxy_vars | default('false')
 
 - name: Generate mailcow.conf file
-  shell: ./generate_config.sh
+ansible.builtin.shell: ./generate_config.sh
   environment:
     MAILCOW_HOSTNAME: "{{ mailcow__hostname }}"
     MAILCOW_TZ: "{{ mailcow__timezone }}"
@@ -44,21 +44,21 @@
     - skip_ansible_lint
 
 - name: Template settings for mailcow.conf
-  import_tasks: mailcowconf.yml
+ansible.builtin.import_tasks: mailcowconf.yml
 
 - name: Configure Rspamd
-  import_tasks: rspamd.yml
+ansible.builtin.import_tasks: rspamd.yml
 
 - name: Template settings for Nginx
-  import_tasks: nginx.yml
+ansible.builtin.import_tasks: nginx.yml
 
 - name: Disable IPv6
-  import_tasks: disable_ipv6.yml
+ansible.builtin.import_tasks: disable_ipv6.yml
   when: mailcow__config_disable_ipv6
 
 - name: Copy vars.local.inc.php
   become: true
-  template:
+ansible.builtin.template:
     src: vars.local.inc.php.j2
     dest: "{{ mailcow__install_path }}/data/web/inc/vars.local.inc.php"
     mode: "0755"
@@ -71,7 +71,7 @@
 
 - name: Start mailcow container stack
   become: true
-  shell: |
+ansible.builtin.shell: |
     {{ mailcow__compose_command }} --project-name {{ mailcow__docker_compose_project_name }} up -d
   changed_when: false
   args:
@@ -79,11 +79,11 @@
   when: not mailcow_running.exists
 
 - name: Update mailcow
-  include_tasks: update.yml
+ansible.builtin.include_tasks: update.yml
   when:
     - mailcow_running.exists
     - mailcow__install_updates
 
 - name: Setup mailcow backup cron
-  include_tasks:  backup.yml
+ansible.builtin.include_tasks:  backup.yml
   when: mailcow__backup_enabled | default('false')
