@@ -16,6 +16,6 @@ galaxy_info:
     - mailcow
     - mailserver
     - docker
-  dependencies:
-   - role: docker-ce
-   - role: docker-compose
+
+dependencies:
+  - geerlingguy.docker
