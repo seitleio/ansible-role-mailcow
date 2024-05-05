@@ -1,19 +1,19 @@
 ---
 
 - name: Install required apt packages
-  become: yes
+  become: true
   apt:
     name: git
     state: present
 
 - name: Check if mailcow installation directory exists
-  become: yes
+  become: true
   stat:
     path: "{{ mailcow__install_path }}"
   register: mailcow_installed
 
 - name: Clone mailcow git repo
-  become: yes
+  become: true
   git:
     repo: 'https://github.com/mailcow/mailcow-dockerized.git'
     version: "{{ mailcow__git_version }}"
@@ -57,21 +57,23 @@
   when: mailcow__config_disable_ipv6
 
 - name: Copy vars.local.inc.php
-  become: yes
+  become: true
   template:
     src: vars.local.inc.php.j2
     dest: "{{ mailcow__install_path }}/data/web/inc/vars.local.inc.php"
+    mode: "0755"
 
 - name: Check if mailcow containers are running
-  become: yes
+  become: true
   community.docker.docker_container_info:
     name: "{{ mailcow__docker_compose_project_name }}-nginx-mailcow-1"
   register: mailcow_running
 
 - name: Start mailcow container stack
-  become: yes
+  become: true
   shell: |
     {{ mailcow__compose_command }} --project-name {{ mailcow__docker_compose_project_name }} up -d
+  changed_when: false
   args:
     chdir: "{{ mailcow__install_path }}"
   when: not mailcow_running.exists

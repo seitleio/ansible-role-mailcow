@@ -1,14 +1,15 @@
 ---
 
 - name: Copy redirect.conf
-  become: yes
+  become: true
   template:
     src: redirect.conf.j2
     dest: "{{ mailcow__install_path }}/data/conf/nginx/redirect.conf"
+    mode: "0540"
   when: mailcow__redirect_http_to_https
 
 - name: Delete redirect.conf
-  become: yes
+  become: true
   file:
     path: "{{ mailcow__install_path }}/data/conf/nginx/redirect.conf"
     state: absent
