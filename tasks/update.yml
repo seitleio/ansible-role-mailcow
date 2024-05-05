@@ -2,21 +2,21 @@
 
 - name: Copy updater script
   become: true
-ansible.builtin.template:
+  ansible.builtin.template:
     src: updater.sh.j2
     dest: /opt/mailcowupdater.sh
     mode: "0750"
 
 - name: Create update logs directory
   become: true
-ansible.builtin.file:
+  ansible.builtin.file:
     dest: /var/log/mailcow-update/
     state: directory
     mode: "0644"
 
 - name: Update mailcow
   become: true
-ansible.builtin.shell: /opt/mailcowupdater.sh
+  ansible.builtin.shell: /opt/mailcowupdater.sh
   args:
     executable: /bin/bash
   register: mailcow_update
@@ -25,12 +25,12 @@ ansible.builtin.shell: /opt/mailcowupdater.sh
     - skip_ansible_lint
 
 - name: Show mailcow update log
-ansible.builtin.debug:
+  ansible.builtin.debug:
     var: mailcow_update.stdout_lines
 
 - name: Write update log to file
   become: true
-ansible.builtin.copy:
+  ansible.builtin.copy:
     content: "{{ mailcow_update.stdout }}"
     dest: "/var/log/mailcow-update/update-{{ ansible_date_time.iso8601_basic_short }}.log"
     mode: "0644"

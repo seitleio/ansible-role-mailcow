@@ -2,10 +2,10 @@
 
 - name: "Uncomment mailcow.conf lines"
   become: yes
-ansible.builtin.replace:
+  ansible.builtin.replace:
     path: "{{ mailcow__install_path }}/mailcow.conf"
     regexp: "^#({{ item }}=)$"
-ansible.builtin.replace: '\1'
+  ansible.builtin.replace: '\1'
   notify: Recreate mailcow
   loop:
     - WATCHDOG_NOTIFY_EMAIL
@@ -14,10 +14,10 @@ ansible.builtin.replace: '\1'
 
 - name: "Configure mailcow.conf"
   become: yes
-ansible.builtin.replace:
+  ansible.builtin.replace:
     path: "{{ mailcow__install_path }}/mailcow.conf"
     regexp: "^{{ item.variable }}=.*"
-ansible.builtin.replace: "{{ item.variable }}={{ item.value }}"
+  ansible.builtin.replace: "{{ item.variable }}={{ item.value }}"
   notify: Recreate mailcow
   loop:
     - variable: HTTP_PORT

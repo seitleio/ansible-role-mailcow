@@ -2,7 +2,7 @@
 
 - name: Copy redirect.conf
   become: true
-ansible.builtin.template:
+  ansible.builtin.template:
     src: redirect.conf.j2
     dest: "{{ mailcow__install_path }}/data/conf/nginx/redirect.conf"
     mode: "0540"
@@ -10,7 +10,7 @@ ansible.builtin.template:
 
 - name: Delete redirect.conf
   become: true
-ansible.builtin.file:
+  ansible.builtin.file:
     path: "{{ mailcow__install_path }}/data/conf/nginx/redirect.conf"
     state: absent
   when: not mailcow__redirect_http_to_https
