@@ -39,7 +39,7 @@ def main():
                 host_path = volume.split(':')[0]
                 container_path = volume.split(':')[1]
                 if host_path in volume_names:
-                    new_mount_path = '{0}/{1}:{2}'.format(args.replacepath, host_path, container_path)
+                    new_mount_path = '{0}{1}:{2}'.format(args.replacepath, host_path, container_path)
                     logging.info('Replacing {old} with {new}'.format(old=volume, new=new_mount_path))
                     service_volumes = [new_mount_path if i == volume else i for i in service_volumes]
 
